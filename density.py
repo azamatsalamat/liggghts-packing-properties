@@ -11,13 +11,13 @@ from random import uniform
 #	filenames[i] = '{}{}.particles'.format(vibration_param, parameter_values[i])
 
 #Enter the filenames in this array
-filenames = ['f20a30.particles']
+filenames = ['test.particles']
 
 #initializing the output data table
-output = pd.DataFrame(columns=['Total_Density', 'Region', 'Lower_boundary', 'Upper_boundary', 'Packing_Density', 
+output = pd.DataFrame(columns=['Total_Density', 'Region', 'Lower_boundary', 'Upper_boundary', 'Packing_Density',
 								'Mean Diameter', 'RMS Diameter'])
 
-row = pd.DataFrame([[0, 0, 0, 0, 0, 0, 0]], columns=['Total_Density', 'Region', 'Lower_boundary', 'Upper_boundary', 
+row = pd.DataFrame([[0, 0, 0, 0, 0, 0, 0]], columns=['Total_Density', 'Region', 'Lower_boundary', 'Upper_boundary',
 								'Packing_Density','Mean Diameter', 'RMS Diameter'])
 
 #assigning values according to the geometry
@@ -46,7 +46,7 @@ def find_total_density(data):
 	cylinder_h = max_heights['local_zmax'].mean()
 	print("The max z-position is", cylinder_h)
 
-	#Monte-Carlo integration to find the 1-void fraction
+	#Monte-Carlo integration to find 1-void fraction
 	ntry = 200000
 	hit = 0
 
@@ -120,7 +120,7 @@ def find_rms_diameter(data, lower_fraction, upper_fraction):
 def full_analyze(data, lower_fraction, upper_fraction):
 	print("\n")
 	print("Analyzing region between", lower_fraction, "and", upper_fraction, "of total height: \n")
-	
+
 	find_local_density(data, lower_fraction, upper_fraction)
 	find_average_diameter(data, lower_fraction, upper_fraction)
 	find_rms_diameter(data, lower_fraction, upper_fraction)
@@ -151,7 +151,7 @@ for i in range(len(filenames)):
 	region_id = len(fractions)-1
 
 	find_total_density(data)
-	
+
 	for i in range(len(fractions)-1):
 		row.loc[0, 'Region'] = region_id
 		region_id = region_id - 1
@@ -159,4 +159,4 @@ for i in range(len(filenames)):
 
 #printing and saving the final output data to a file
 print("\n", output)
-output.to_csv(path_or_buf='f20a30.csv', sep=' ')
+output.to_csv(path_or_buf='test.csv', sep=' ')
