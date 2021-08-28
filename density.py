@@ -2,14 +2,6 @@ import numpy as np
 import pandas as pd
 from random import uniform
 
-#No need in these lines below
-#parameter_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1.0, 1.5, 2.0]
-#vibration_param = 'amp'
-
-#filenames = [None]*len(parameter_values)
-#for i in range(len(parameter_values)):
-#	filenames[i] = '{}{}.particles'.format(vibration_param, parameter_values[i])
-
 #Enter the filenames in this array
 filenames = ['test.particles']
 
@@ -136,7 +128,6 @@ def trunc(values, decimals = 0):
     return np.trunc(values*10**decimals)/(10**decimals)
 
 #calling functions
-#fractions = [0.001, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 fractions = [0.001, 0.2, 0.4, 0.6, 0.8]
 
 for i in range(len(filenames)):
@@ -145,8 +136,6 @@ for i in range(len(filenames)):
 	data = pd.read_table(filenames[i], delim_whitespace=True, names=['id', 'type', 'x', 'y',
  					'z', 'vx', 'vy', 'vz', 'fx', 'fy', 'fz', 'radius', 'mass'], header=None, skiprows=list(range(9)))
 	data = data[['id', 'x', 'y', 'z', 'radius', 'mass']]
-
-	#row.loc[0, 'Parameter'] = trunc(parameter_values[i], 2)
 
 	region_id = len(fractions)-1
 
