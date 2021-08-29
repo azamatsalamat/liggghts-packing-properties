@@ -89,39 +89,24 @@ def find_local_density(data, lower_fraction, upper_fraction):
 #function to find average diameter in a particular region
 def find_average_diameter(data, lower_fraction, upper_fraction):
 	region = data[(data['z'] < t + upper_fraction*cylinder_h) & (data['z'] > t + lower_fraction*cylinder_h)
-					& (np.sqrt(data['x']**2 + data['y']**2) < 0.2)]
+					& (np.sqrt(data['x']**2 + data['y']**2) < 0.8*cylinder_r)]
 
-	average_d = (region['radius']*2000000/50/15).mean()
+	average_d = (region['radius']*2).mean()
 
-	print("The average diameter for this region is", average_d, "micron")
+	print("The average diameter for this region is", average_d, "m")
 
 	row.loc[0, 'Mean Diameter'] = average_d
 
 #function to find rms diameter in a prticular region
 def find_rms_diameter(data, lower_fraction, upper_fraction):
 	region = data[(data['z'] < t + upper_fraction*cylinder_h) & (data['z'] > t + lower_fraction*cylinder_h)
-					& (np.sqrt(data['x']**2 + data['y']**2) < 0.2)]
+					& (np.sqrt(data['x']**2 + data['y']**2) < 0.8*cylinder_r)]
 
-	rms_d = np.sqrt(((region['radius']*2000000/50/15)**2).mean())
+	rms_d = np.sqrt(((region['radius']*2)**2).mean())
 
-	print("The rms diameter for this region is", rms_d, "micron")
+	print("The rms diameter for this region is", rms_d, "m")
 
 	row.loc[0, 'RMS Diameter'] = rms_d
-
-#function to call all previous functions
-def full_analyze(data, lower_fraction, upper_fraction):
-	print("\n")
-	print("Analyzing region between", lower_fraction, "and", upper_fraction, "of total height: \n")
-
-	find_local_density(data, lower_fraction, upper_fraction)
-	find_average_diameter(data, lower_fraction, upper_fraction)
-	find_rms_diameter(data, lower_fraction, upper_fraction)
-
-	row.loc[0, 'Lower_boundary'] = lower_fraction
-	row.loc[0, 'Upper_boundary'] = upper_fraction
-
-	global output
-	output = output.append(row, ignore_index=True)
 
 #function to truncate values
 def trunc(values, decimals = 0):
@@ -144,7 +129,16 @@ for i in range(len(filenames)):
 	for i in range(len(fractions)-1):
 		row.loc[0, 'Region'] = region_id
 		region_id = region_id - 1
-		full_analyze(data, fractions[i], fractions[i+1])
+		print("\n")
+		print("Analyzing region between", fractions[i], "and", fractions[i+1], "of the total height:")
+
+		find_local_density(data, fractions[i], fractions[i+1])
+		find_average_diameter(data, fractions[i], fractions[i+1])
+		find_rms_diameter(data, fractions[i], fractions[i+1])
+
+		row.loc[0, 'Lower_boundary'] = fractions[i]
+		row.loc[0, 'Upper_boundary'] = fractions[i+1]
+		output = output.append(row, ignore_index=True)
 
 #printing and saving the final output data to a file
 print("\n", output)
