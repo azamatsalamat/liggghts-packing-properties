@@ -1,6 +1,6 @@
-# LIGGGHTS packing density calculator
+# LIGGGHTS: packing properties calculator
 
-Calculates the packing density, mean and RMS particle diameters of a packing simulated in the LIGGGHTS package (in cylindrical containers)
+Calculates the packing density, mean, RMS particle diameters, coordination number and RDF distributions for a packing simulated in the LIGGGHTS package (in cylindrical containers)
 
 ## Files:
 
