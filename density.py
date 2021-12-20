@@ -5,7 +5,8 @@ import pandas as pd
 from random import uniform
 
 # Enter the input filenames in this array separating with comma
-filenames = ['test.particles']
+fname = 'test'
+filenames = [fname+'.particles']
 
 # initializing the output table
 output = pd.DataFrame(columns=['Total_Density', 'Region', 'Lower_boundary', 'Upper_boundary', 'Packing_Density',
@@ -152,4 +153,4 @@ for i in range(len(filenames)):
 
 # printing and saving the final output data to a file
 print("\n", output)
-output.to_csv(path_or_buf='test.csv', sep=' ')
+output.to_csv(path_or_buf=fname+'.csv', sep=' ')
